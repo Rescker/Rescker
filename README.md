@@ -1,9 +1,3 @@
-<div align="center">
-  <a href="https://github.com/ryo-ma/github-profile-trophy">
-    <img src="https://github-profile-trophy.vercel.app/?username=Rescker&theme=tokyonight&no-frame=true&column=7&margin-w=15&margin-h=15" alt="Rescker Trophies" />
-  </a>
-</div>
-
 ![Header](https://capsule-render.vercel.app/api?type=waving&color=0d1117&height=280&section=header&text=Joaquim%20Mendes&fontSize=80&animation=fadeIn&fontAlignY=35&desc=Software%20Engineer%20%40Rescker&descAlignY=55&descAlign=60&fontColor=ffffff)
 
 <div align="center">
@@ -45,10 +39,6 @@
   <img src="https://github-readme-stats.vercel.app/api?username=Rescker&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0d1117&count_private=true" height="150" alt="Stats" />
   
   <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Rescker&layout=compact&theme=tokyonight&hide_border=true&bg_color=0d1117" height="150" alt="Langs" />
-</div>
-
-<div align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=Rescker&theme=tokyonight&hide_border=true&date_format=M%20j%5B%2C%20Y%5D&bg_color=0d1117" height="150" alt="Streak" />
 </div>
 
 <br/>
