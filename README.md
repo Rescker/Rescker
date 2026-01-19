@@ -1,4 +1,4 @@
-![Header](https://capsule-render.vercel.app/api?type=waving&color=0d1117&height=320&section=header&text=Joaquim%20Mendes&fontSize=85&animation=fadeIn&fontAlignY=45&desc=Software%20Engineer%20%40Rescker&descAlignY=65&descAlign=62&fontColor=ffffff)
+![Header](https://capsule-render.vercel.app/api?type=waving&color=0d1117&height=320&section=header&text=Joaquim%20Mendes&fontSize=85&animation=fadeIn&fontAlignY=45&desc=%20%40Rescker&descAlignY=65&descAlign=62&fontColor=ffffff)
 
 <div align="center">
 
