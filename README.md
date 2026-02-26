@@ -34,15 +34,6 @@
 </div>
 
 <br/>
-<br/>
-
-<h2 align="center">📊 Analytics</h2>
-
-<div align="center">
-  <a href="https://github.com/Rescker">
-    <img src="https://github-readme-stats.vercel.app/api?username=Rescker&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0d1117&count_private=true&include_all_commits=true&hide_rank=true" height="180" alt="Rescker Stats" />
-  </a>
-</div>
 
 <br/>
 
