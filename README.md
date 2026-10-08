@@ -1,4 +1,4 @@
-<img src="assets/terminal.svg" width="100%" alt="rescker@github — Joaquim Mendes, full stack engineer. Java, Spring Boot, React, TypeScript, PostgreSQL, MySQL, Docker, MongoDB. State? It ain't. Hit the road, dude. This ain't no state property." />
+<img src="assets/terminal.svg?v=3" width="100%" alt="rescker@github — Joaquim Mendes, full stack engineer. Java, Spring Boot, React, TypeScript, PostgreSQL, MySQL, Docker, MongoDB. State? It ain't. Hit the road, dude. This ain't no state property." />
 
 ## Stack
 
