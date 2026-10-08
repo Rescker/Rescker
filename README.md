@@ -21,7 +21,7 @@
 ## Contact
 
 <p align="right">
-  <a href="https://linkedin.com/in/joaquim-mendes-832610266"><img src="https://img.shields.io/badge/LinkedIn-0D1117?style=for-the-badge&logo=linkedin&logoColor=39D353&labelColor=0D1117" height="42" alt="LinkedIn" /></a>
-  <a href="mailto:joaquim0220@gmail.com"><img src="https://img.shields.io/badge/Email-0D1117?style=for-the-badge&logo=gmail&logoColor=39D353&labelColor=0D1117" height="42" alt="Email" /></a>
-  <a href="https://github.com/Rescker"><img src="https://img.shields.io/badge/GitHub-0D1117?style=for-the-badge&logo=github&logoColor=39D353&labelColor=0D1117" height="42" alt="GitHub" /></a>
+  <a href="https://linkedin.com/in/joaquim-mendes-832610266"><img src="https://img.shields.io/badge/LinkedIn-0D1117?style=for-the-badge&logo=linkedin&logoColor=39D353&labelColor=0D1117" width="168" alt="LinkedIn" /></a>
+  <a href="mailto:joaquim0220@gmail.com"><img src="https://img.shields.io/badge/Email-0D1117?style=for-the-badge&logo=gmail&logoColor=39D353&labelColor=0D1117" width="168" alt="Email" /></a>
+  <a href="https://github.com/Rescker"><img src="https://img.shields.io/badge/GitHub-0D1117?style=for-the-badge&logo=github&logoColor=39D353&labelColor=0D1117" width="168" alt="GitHub" /></a>
 </p>
