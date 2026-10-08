@@ -1,20 +1,4 @@
-```text
- ░░█ █▀█ ▄▀█ ▄▀▄ █░█ ▀█▀ █▄░▄█
- █▄█ █▄█ █▀█ ▀▄█ █▄█ ▄█▄ █░▀░█
-
- █▄░▄█ █▀▀ █▄░█ █▀▄ █▀▀ ▄▀▀
- █░▀░█ ██▄ █░▀█ █▄▀ ██▄ ▄██
-
-rescker@github:~$ whoami
-Joaquim Mendes · software engineer
-backend-leaning full stack
-rescker@github:~$ cat /etc/motd
-State? It ain't. Hit the road, dude.
-This ain't no state property. 🚜
-rescker@github:~$ _
-```
-
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=500&size=20&pause=1200&color=39D353&background=0D1117&vCenter=true&width=620&height=45&lines=%3E+java+%2F+spring+boot+%2F+postgres+%2F+mysql;%3E+react+%2F+typescript+%2F+next.js+%2F+tailwind" alt="java / spring boot / postgres / mysql — react / typescript / next.js / tailwind" />
+<img src="assets/terminal.svg" width="560" alt="rescker@github — Joaquim Mendes, full stack engineer. Java · Spring Boot, React / TypeScript. State? It ain't. Hit the road, dude. This ain't no state property." />
 
 ## Stack
 
@@ -36,8 +20,8 @@ rescker@github:~$ _
 
 ## Contact
 
-```
-linkedin  https://linkedin.com/in/joaquim-mendes-832610266
-email     joaquim0220@gmail.com
-github    https://github.com/Rescker
-```
+<p align="right">
+  <a href="https://linkedin.com/in/joaquim-mendes-832610266"><img src="https://img.shields.io/badge/LinkedIn-0D1117?style=for-the-badge&logo=linkedin&logoColor=39D353&labelColor=0D1117" height="42" alt="LinkedIn" /></a>
+  <a href="mailto:joaquim0220@gmail.com"><img src="https://img.shields.io/badge/Email-0D1117?style=for-the-badge&logo=gmail&logoColor=39D353&labelColor=0D1117" height="42" alt="Email" /></a>
+  <a href="https://github.com/Rescker"><img src="https://img.shields.io/badge/GitHub-0D1117?style=for-the-badge&logo=github&logoColor=39D353&labelColor=0D1117" height="42" alt="GitHub" /></a>
+</p>
