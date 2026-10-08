@@ -10,6 +10,11 @@ Deterministic by construction:
 * Body text carries textLength + lengthAdjust="spacingAndGlyphs" so columns
   hold even when the fallback face is not truly monospace.
 
+The layout is three columns across (wordmark | identity | stack) with the
+session output spanning the full width underneath. Aspect is deliberately
+~2:1 so the README can render it at width="100%" and fill the column without
+becoming absurdly tall.
+
 GitHub strips <style>/<script> from README HTML, but an SVG referenced through
 <img> keeps its declarative SMIL animation. No third-party host is involved,
 so nothing here can rate-limit, 402, or vanish.
@@ -35,16 +40,17 @@ DOT_R, DOT_Y, DOT_G = "#FF5F56", "#FFBD2E", "#27C93F"
 # ------------------------------------------------------------------- type ----
 FONT = ("ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, "
         "'Liberation Mono', monospace")
-FS = 15.5          # body font-size
-CW = 9.3           # advance per character (0.6em for a monospace face)
-LH = 23.0          # body line height
+FS = 17.0            # body font-size
+CW = 10.2            # advance per character (0.6em for a monospace face)
+LH = 25.5            # body line height
 TITLE_FS = 12.5
 
 # ------------------------------------------------------------------ layout ----
-PAD = 20.0
-TITLE_H = 36.0
+PAD = 22.0
+TITLE_H = 38.0
 RADIUS = 10.0
-GAP = 30.0         # wordmark -> identity column
+GAP_AB = 34.0        # wordmark -> identity
+GAP_BC = 40.0        # identity -> stack
 
 # -------------------------------------------------- 5x7 bitmap wordmark ------
 FONT_5X7 = {
@@ -62,10 +68,10 @@ FONT_5X7 = {
 }
 WORDMARK = ["JOAQUIM", "MENDES"]
 
-CELL_W = 5.2       # one bitmap pixel, horizontally
-CELL_H = 6.9       # one bitmap pixel, vertically (bitmap faces are ~1:1.3)
-LETTER_GAP = 1     # blank pixel columns between letters
-LINE_GAP = 2       # blank pixel rows between the two words
+CELL_W = 6.6         # one bitmap pixel, horizontally
+CELL_H = 8.7         # one bitmap pixel, vertically (bitmap faces are ~1:1.3)
+LETTER_GAP = 1       # blank pixel columns between letters
+LINE_GAP = 2         # blank pixel rows between the two words
 
 
 def word_units(word: str) -> int:
@@ -77,15 +83,22 @@ ART_UNITS_H = len(WORDMARK) * 7 + (len(WORDMARK) - 1) * LINE_GAP
 ART_W = ART_UNITS_W * CELL_W
 ART_H = ART_UNITS_H * CELL_H
 
-# ------------------------------------------------------------------ identity -
+# ------------------------------------------------------------------ content --
 # (kind, text) -- "rule" draws a real line, avoiding box-drawing font drift.
 IDENTITY = [
     ("accent", "rescker@github"),
     ("rule", ""),
     ("strong", "Joaquim Mendes"),
     ("muted", "full stack engineer"),
+]
+
+STACK = [
+    ("accent", "~/stack"),
+    ("rule", ""),
     ("text", "Java · Spring Boot"),
     ("text", "React / TypeScript"),
+    ("text", "PostgreSQL · MySQL"),
+    ("text", "Docker · MongoDB"),
 ]
 
 PROMPT = "rescker@github:~$"
@@ -96,29 +109,32 @@ MOTD = [
 ]
 
 # --------------------------------------------------------------- geometry ----
-ident_rows = len(IDENTITY)
-ident_h = ident_rows * LH
-ident_w = max(len(t) for k, t in IDENTITY if k != "rule") * CW
-code_w = max(len(PROMPT) + 1 + len(COMMAND), *(len(l) for l in MOTD)) * CW
-body_w = max(ART_W + GAP + ident_w, code_w)
+def col_width(lines) -> float:
+    return max(len(t) for k, t in lines if k != "rule") * CW
 
-W = round(PAD * 2 + body_w + 1)
-BODY_TOP = TITLE_H + PAD + 6
-art_top = BODY_TOP + max(0.0, (ident_h - ART_H) / 2)   # centre art on identity
-rule_y = BODY_TOP + ident_h + 16
-CODE_TOP = rule_y + 24
-CODE_LINES = 1 + len(MOTD) + 1                          # cmd + motd + prompt
+
+IDENT_W = col_width(IDENTITY)
+STACK_W = col_width(STACK)
+IDENT_X = PAD + ART_W + GAP_AB
+STACK_X = IDENT_X + IDENT_W + GAP_BC
+
+row1_h = max(ART_H, len(IDENTITY) * LH, len(STACK) * LH)
+body_w = ART_W + GAP_AB + IDENT_W + GAP_BC + STACK_W
+
+W = round(PAD * 2 + body_w)
+ROW1_TOP = TITLE_H + PAD
+rule_y = ROW1_TOP + row1_h + 20
+CODE_TOP = rule_y + 26
+CODE_LINES = 1 + len(MOTD) + 1                 # command + motd + trailing prompt
 H = round(CODE_TOP + (CODE_LINES - 1) * LH + FS + PAD - 6)
-
-IDENT_X = PAD + ART_W + GAP
-ART_X = PAD
 
 o = []
 add = o.append
 add(f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" '
     f'viewBox="0 0 {W} {H}" role="img" '
     f'aria-label="Terminal: Joaquim Mendes, full stack engineer. '
-    f'Java, Spring Boot, React, TypeScript. State? It ain\'t.">')
+    f'Java, Spring Boot, React, TypeScript, PostgreSQL, MySQL, Docker, '
+    f'MongoDB. State? It ain\'t. Hit the road, dude.">')
 add('<title>rescker@github: ~</title>')
 
 # --- window ------------------------------------------------------------------
@@ -138,11 +154,11 @@ for i, color in enumerate((DOT_R, DOT_Y, DOT_G)):
 add(f'<text x="{W / 2:.1f}" y="{cy + 4:.1f}" fill="{MUTED}" font-family="{FONT}" '
     f'font-size="{TITLE_FS}" text-anchor="middle">rescker@github — zsh</text>')
 
-# --- wordmark as bitmap rects ------------------------------------------------
+# --- column A: wordmark as bitmap rects --------------------------------------
 add(f'<g fill="{ACCENT}">')
 for li, word in enumerate(WORDMARK):
-    y0 = art_top + li * (7 + LINE_GAP) * CELL_H
-    x0 = ART_X
+    y0 = ROW1_TOP + li * (7 + LINE_GAP) * CELL_H
+    x0 = PAD
     for ch in word:
         for ry, row in enumerate(FONT_5X7[ch]):
             for rx, bit in enumerate(row):
@@ -153,34 +169,39 @@ for li, word in enumerate(WORDMARK):
         x0 += (5 + LETTER_GAP) * CELL_W
 add('</g>')
 
-# --- identity column ---------------------------------------------------------
-add(f'<g font-family="{FONT}" font-size="{FS}">')
-for i, (kind, text) in enumerate(IDENTITY):
-    y = BODY_TOP + i * LH + FS * 0.86
-    if kind == "rule":
-        add(f'<line x1="{IDENT_X:.1f}" y1="{y - FS * 0.42:.1f}" '
-            f'x2="{IDENT_X + ident_w * 0.72:.1f}" y2="{y - FS * 0.42:.1f}" '
-            f'stroke="{BORDER}" stroke-width="1.5"/>')
-        continue
-    color = {"accent": ACCENT, "strong": TEXT, "muted": MUTED, "text": TEXT}[kind]
-    weight = ' font-weight="600"' if kind in ("strong", "accent") else ""
-    add(f'<text x="{IDENT_X:.1f}" y="{y:.1f}" fill="{color}"{weight} '
-        f'textLength="{len(text) * CW:.1f}" '
-        f'lengthAdjust="spacingAndGlyphs">{escape(text)}</text>')
-add('</g>')
+# --- columns B and C: text blocks --------------------------------------------
+def text_col(lines, x: float, width: float) -> None:
+    add(f'<g font-family="{FONT}" font-size="{FS}">')
+    for i, (kind, text) in enumerate(lines):
+        y = ROW1_TOP + i * LH + FS * 0.86
+        if kind == "rule":
+            add(f'<line x1="{x:.1f}" y1="{y - FS * 0.42:.1f}" '
+                f'x2="{x + width * 0.72:.1f}" y2="{y - FS * 0.42:.1f}" '
+                f'stroke="{BORDER}" stroke-width="1.5"/>')
+            continue
+        color = {"accent": ACCENT, "strong": TEXT, "muted": MUTED, "text": TEXT}[kind]
+        weight = ' font-weight="600"' if kind in ("strong", "accent") else ""
+        add(f'<text x="{x:.1f}" y="{y:.1f}" fill="{color}"{weight} '
+            f'textLength="{len(text) * CW:.1f}" '
+            f'lengthAdjust="spacingAndGlyphs">{escape(text)}</text>')
+    add('</g>')
+
+
+text_col(IDENTITY, IDENT_X, IDENT_W)
+text_col(STACK, STACK_X, STACK_W)
 
 # --- divider -----------------------------------------------------------------
 add(f'<line x1="{PAD}" y1="{rule_y:.1f}" x2="{W - PAD}" y2="{rule_y:.1f}" '
     f'stroke="{RULE}" stroke-width="1"/>')
 
-# --- code section ------------------------------------------------------------
+# --- full-width session output ----------------------------------------------
 y0 = CODE_TOP + FS * 0.86
 # NOTE: the prompt carries no trailing space -- a trailing space is dropped when
 # textLength compresses the run, which would jam the command against the '$'.
 # The gap is instead one explicit character cell.
-cmd_x = PAD + (len(PROMPT) + 1) * CW
-cmd_w = len(COMMAND) * CW
 prompt_w = len(PROMPT) * CW
+cmd_x = PAD + prompt_w + CW
+cmd_w = len(COMMAND) * CW
 
 add(f'<g font-family="{FONT}" font-size="{FS}">')
 add(f'<text x="{PAD}" y="{y0:.1f}" fill="{ACCENT}" font-weight="600" '
@@ -230,5 +251,5 @@ add('</g>')
 add('</svg>')
 
 OUT.write_text("\n".join(o) + "\n", encoding="utf-8")
-print(f"wrote {OUT}  ({W}x{H}; wordmark {ART_UNITS_W}x{ART_UNITS_H} px-units "
-      f"-> {ART_W:.0f}x{ART_H:.0f})")
+print(f"wrote {OUT}  ({W}x{H}, aspect {W / H:.2f}; "
+      f"cols art {ART_W:.0f} | ident {IDENT_W:.0f} | stack {STACK_W:.0f})")
