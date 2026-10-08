@@ -20,6 +20,9 @@ Deterministic by construction:
 * Body text carries textLength + lengthAdjust="spacingAndGlyphs" so columns
   hold even when the fallback face is not truly monospace.
 
+The session is a function call: `is_state_property --pond` is typed, then its
+output fades in line by line. The answer is the meme.
+
 GitHub strips <style>/<script> from README HTML, but an SVG referenced through
 <img> keeps its declarative SMIL animation. No third-party host is involved,
 so nothing here can rate-limit, 402, or vanish.
@@ -46,7 +49,6 @@ DOT_R, DOT_Y, DOT_G = "#FF5F56", "#FFBD2E", "#27C93F"
 FONT = ("ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, "
         "'Liberation Mono', monospace")
 FS = 17.0            # body font-size
-CW = 10.2            # advance per character (0.6em for a monospace face)
 LH = 25.5            # body line height
 TITLE_FS = 12.5
 
@@ -86,22 +88,28 @@ STACK = [
 ]
 
 PROMPT = "rescker@github:~$"
-COMMAND = "cat /etc/motd"
-MOTD = [
-    "State? It ain't. Hit the road, dude.",
-    "This ain't no state property. 🚜",
-]
+COMMAND = "is_state_property --pond"
 
-ARIA = ("Terminal: Joaquim Mendes, full stack engineer. Java, Spring Boot, "
-        "React, TypeScript, PostgreSQL, MySQL, Docker, MongoDB. "
-        "State? It ain't. Hit the road, dude. This ain't no state property.")
+# The function's answer. Rendered as a two-column block: muted label, value in
+# the body colour, with the punchline in the accent so the eye lands on it.
+OUTPUT = [
+    ("state property?", "it ain't.", ACCENT),
+    ("permission", "trey taylor · crewe tractor", TEXT),
+    ("verdict", "hit the road, dude 🚜", TEXT),
+]
+LABEL_COL = max(len(label) for label, _, _ in OUTPUT)
+VALUE_GAP = 2        # blank character cells between label and value columns
+
+ARIA = ("Terminal session. rescker@github runs is_state_property --pond. "
+        "State property? It ain't. Permission: Trey Taylor, Crewe Tractor. "
+        "Verdict: hit the road, dude. Joaquim Mendes, full stack engineer. "
+        "Java, Spring Boot, React, TypeScript, PostgreSQL, MySQL, Docker, "
+        "MongoDB.")
 
 
 def build(compact: bool) -> tuple[str, int, int, float]:
-    """Render the hero. `compact` drops the stack column and shrinks the
-    wordmark cells so the frame stays legible on narrow viewports."""
-    # The compact variant must stay legible at ~336px (a 400px phone),
-    # so it uses tighter padding and a narrower wordmark cell.
+    """Render the hero. `compact` drops the stack column, tightens the padding
+    and narrows the character cell so the frame stays legible on phones."""
     pad = 16.0 if compact else 22.0
     title_h = 34.0
     radius = 10.0
@@ -109,6 +117,11 @@ def build(compact: bool) -> tuple[str, int, int, float]:
     gap_bc = 40.0
     cell_w = 5.6 if compact else 7.6
     cell_h = 8.6
+    # Advance per character. 0.6em is the true monospace ratio; the compact
+    # variant squeezes to 0.58em so the longest output line still fits a 400px
+    # phone. textLength forces the run to this width, so a 2% condensation is
+    # imperceptible but buys the whole permission line.
+    cw = 9.9 if compact else 10.2
 
     art_units_w = max(len(w) * 5 + (len(w) - 1) * LETTER_GAP for w in WORDMARK)
     art_units_h = len(WORDMARK) * 7 + (len(WORDMARK) - 1) * LINE_GAP
@@ -116,29 +129,39 @@ def build(compact: bool) -> tuple[str, int, int, float]:
     art_h = art_units_h * cell_h
 
     def col_w(lines) -> float:
-        return max(len(t) for k, t in lines if k != "rule") * CW
+        return max(len(t) for k, t in lines if k != "rule") * cw
 
     ident_w = col_w(IDENTITY)
     ident_x = pad + art_w + gap_ab
 
     if compact:
-        stack = []
-        stack_w = 0.0
-        stack_x = 0.0
-        body_w = art_w + gap_ab + ident_w
+        stack, stack_w, stack_x = [], 0.0, 0.0
+        row1_w = art_w + gap_ab + ident_w
     else:
         stack = STACK
         stack_w = col_w(STACK)
         stack_x = ident_x + ident_w + gap_bc
-        body_w = art_w + gap_ab + ident_w + gap_bc + stack_w
+        row1_w = art_w + gap_ab + ident_w + gap_bc + stack_w
 
+    value_x_chars = LABEL_COL + VALUE_GAP
+    code_w = max(
+        len(PROMPT) + 1 + len(COMMAND),
+        max(value_x_chars + len(v) for _, v, _ in OUTPUT),
+    ) * cw
+
+    body_w = max(row1_w, code_w)
     row1_h = max([art_h, len(IDENTITY) * LH] + ([len(stack) * LH] if stack else []))
     w = round(pad * 2 + body_w)
     row1_top = title_h + pad
     rule_y = row1_top + row1_h + 16
     code_top = rule_y + 22
-    code_lines = 1 + len(MOTD) + 1
-    h = round(code_top + (code_lines - 1) * LH + FS + pad - 6)
+    code_lines = 1 + len(OUTPUT) + 1               # command + output + prompt
+    # Baselines run y0, y0 + LH ... y0 + (code_lines - 1) * LH. Size the frame
+    # from that LAST baseline plus its descender; deriving it from a line count
+    # put the trailing prompt below the bottom edge and clipped it.
+    y0_pre = code_top + FS * 0.86
+    prompt_y = y0_pre + (code_lines - 1) * LH
+    h = round(prompt_y + FS * 0.35 + pad - 4)
 
     o = []
     add = o.append
@@ -193,7 +216,7 @@ def build(compact: bool) -> tuple[str, int, int, float]:
                      "text": TEXT}[kind]
             weight = ' font-weight="600"' if kind in ("strong", "accent") else ""
             add(f'<text x="{x:.1f}" y="{y:.1f}" fill="{color}"{weight} '
-                f'textLength="{len(text) * CW:.1f}" '
+                f'textLength="{len(text) * cw:.1f}" '
                 f'lengthAdjust="spacingAndGlyphs">{escape(text)}</text>')
         add('</g>')
 
@@ -205,53 +228,64 @@ def build(compact: bool) -> tuple[str, int, int, float]:
     add(f'<line x1="{pad}" y1="{rule_y:.1f}" x2="{w - pad}" y2="{rule_y:.1f}" '
         f'stroke="{RULE}" stroke-width="1"/>')
 
-    # --- full-width session output ---
+    # --- session: the function call, then its answer ---
     y0 = code_top + FS * 0.86
     # NOTE: the prompt carries no trailing space -- a trailing space is dropped
     # when textLength compresses the run, which would jam the command against
     # the '$'. The gap is instead one explicit character cell.
-    prompt_w = len(PROMPT) * CW
-    cmd_x = pad + prompt_w + CW
-    cmd_w = len(COMMAND) * CW
+    prompt_w = len(PROMPT) * cw
+    cmd_x = pad + prompt_w + cw
+    cmd_w = len(COMMAND) * cw
 
     add(f'<g font-family="{FONT}" font-size="{FS}">')
     add(f'<text x="{pad}" y="{y0:.1f}" fill="{ACCENT}" font-weight="600" '
         f'textLength="{prompt_w:.1f}" lengthAdjust="spacingAndGlyphs">'
         f'{escape(PROMPT)}</text>')
+    # the typed command, revealed by a clip rect
     add('<clipPath id="cmd" clipPathUnits="userSpaceOnUse">')
     add(f'<rect x="{cmd_x:.1f}" y="{y0 - LH * 0.8:.1f}" width="0" '
         f'height="{LH:.1f}">')
-    steps = ";".join(f"{i * CW:.1f}" for i in range(len(COMMAND) + 1))
-    add(f'<animate attributeName="width" calcMode="discrete" dur="0.72s" '
+    steps = ";".join(f"{i * cw:.1f}" for i in range(len(COMMAND) + 1))
+    add(f'<animate attributeName="width" calcMode="discrete" dur="0.85s" '
         f'begin="0.55s" fill="freeze" values="{steps}"/>')
     add('</rect></clipPath>')
     add(f'<text x="{cmd_x:.1f}" y="{y0:.1f}" fill="{TEXT}" clip-path="url(#cmd)" '
         f'textLength="{cmd_w:.1f}" lengthAdjust="spacingAndGlyphs">'
         f'{escape(COMMAND)}</text>')
+    # waiting cursor, hidden once typing starts
     add(f'<rect x="{cmd_x:.1f}" y="{y0 - FS * 0.78:.1f}" '
-        f'width="{CW * 0.62:.1f}" height="{FS * 0.95:.1f}" fill="{ACCENT}">')
+        f'width="{cw * 0.62:.1f}" height="{FS * 0.95:.1f}" fill="{ACCENT}">')
     add('<animate attributeName="opacity" values="1;1;0;0" '
         'keyTimes="0;0.5;0.5;1" dur="1.06s" repeatCount="indefinite"/>')
     add('<animate attributeName="opacity" values="1;0" begin="0.55s" '
         'dur="0.01s" fill="freeze"/>')
     add('</rect>')
-    for i, line in enumerate(MOTD):
+
+    # the answer, one line at a time
+    value_x = pad + value_x_chars * cw
+    for i, (label, value, color) in enumerate(OUTPUT):
         ly = y0 + (i + 1) * LH
-        begin = 1.4 + i * 0.14
-        add(f'<text x="{pad}" y="{ly:.1f}" fill="{TEXT}" opacity="0" '
-            f'textLength="{len(line) * CW:.1f}" '
-            f'lengthAdjust="spacingAndGlyphs">{escape(line)}')
-        add(f'<animate attributeName="opacity" values="0;1" begin="{begin:.2f}s" '
-            f'dur="0.28s" fill="freeze"/>')
-        add('</text>')
-    py = y0 + code_lines * LH - LH / 2
+        begin = 1.55 + i * 0.22
+        add(f'<g opacity="0">')
+        add(f'<animate attributeName="opacity" values="0;1" '
+            f'begin="{begin:.2f}s" dur="0.26s" fill="freeze"/>')
+        add(f'<text x="{pad}" y="{ly:.1f}" fill="{MUTED}" '
+            f'textLength="{len(label) * cw:.1f}" '
+            f'lengthAdjust="spacingAndGlyphs">{escape(label)}</text>')
+        add(f'<text x="{value_x:.1f}" y="{ly:.1f}" fill="{color}" '
+            f'textLength="{len(value) * cw:.1f}" '
+            f'lengthAdjust="spacingAndGlyphs">{escape(value)}</text>')
+        add('</g>')
+
+    # trailing prompt + blinking cursor
+    py = prompt_y
     add('<g opacity="0"><animate attributeName="opacity" values="0;1" '
-        'begin="1.85s" dur="0.2s" fill="freeze"/>')
+        'begin="2.45s" dur="0.2s" fill="freeze"/>')
     add(f'<text x="{pad}" y="{py:.1f}" fill="{ACCENT}" font-weight="600" '
         f'textLength="{prompt_w:.1f}" lengthAdjust="spacingAndGlyphs">'
         f'{escape(PROMPT)}</text>')
-    add(f'<rect x="{pad + prompt_w + CW:.1f}" y="{py - FS * 0.78:.1f}" '
-        f'width="{CW * 0.62:.1f}" height="{FS * 0.95:.1f}" fill="{ACCENT}">')
+    add(f'<rect x="{pad + prompt_w + cw:.1f}" y="{py - FS * 0.78:.1f}" '
+        f'width="{cw * 0.62:.1f}" height="{FS * 0.95:.1f}" fill="{ACCENT}">')
     add('<animate attributeName="opacity" values="1;1;0;0" '
         'keyTimes="0;0.5;0.5;1" dur="1.06s" repeatCount="indefinite"/>')
     add('</rect></g>')

@@ -1,6 +1,6 @@
 <picture>
-  <source media="(max-width: 600px)" srcset="assets/terminal-compact.svg?v=4" />
-  <img src="assets/terminal.svg?v=4" width="100%" alt="rescker@github — Joaquim Mendes, full stack engineer. Java, Spring Boot, React, TypeScript, PostgreSQL, MySQL, Docker, MongoDB. State? It ain't. Hit the road, dude. This ain't no state property." />
+  <source media="(max-width: 600px)" srcset="assets/terminal-compact.svg?v=5" />
+  <img src="assets/terminal.svg?v=5" width="100%" alt="Terminal session. rescker@github runs is_state_property --pond. State property? It ain't. Permission: Trey Taylor, Crewe Tractor. Verdict: hit the road, dude. Joaquim Mendes, full stack engineer. Java, Spring Boot, React, TypeScript, PostgreSQL, MySQL, Docker, MongoDB." />
 </picture>
 
 ## Stack
