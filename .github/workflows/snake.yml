@@ -29,7 +29,7 @@ jobs:
         with:
           github_user_name: Rescker
           outputs: |
-            dist/github-contribution-grid-snake.svg
+            dist/github-contribution-grid-snake.svg?palette=github-light
             dist/github-contribution-grid-snake-dark.svg?color_snake=#39D353&color_dots=#0D1117,#0E4429,#006D32,#26A641,#39D353
 
       # 2. Envia o arquivo gerado para uma branch separada chamada "output"
