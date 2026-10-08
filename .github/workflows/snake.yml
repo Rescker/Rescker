@@ -1,40 +1,39 @@
 name: Generate Snake
 
-# Quando vai rodar?
 on:
-  # Roda a cada 12 horas
   schedule:
+    # Roda a cada 12 horas
     - cron: "0 */12 * * *"
-  
+
   # Permite rodar manualmente na aba "Actions"
   workflow_dispatch:
-  
+
   # Roda a cada push na branch master/main
   push:
     branches:
-    - master
-    - main
+      - master
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions: 
+    permissions:
       contents: write
-    
+
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # 1. Gera a cobrinha (SVG)
       - uses: Platane/snk@v3
         id: snake-gif
         with:
-          github_user_name: Rescker # Seu usuário
+          github_user_name: Rescker
           outputs: |
             dist/github-contribution-grid-snake.svg
-            dist/github-contribution-grid-snake-dark.svg?palette=github-dark
+            dist/github-contribution-grid-snake-dark.svg?color_snake=#39D353&color_dots=#0D1117,#0E4429,#006D32,#26A641,#39D353
 
       # 2. Envia o arquivo gerado para uma branch separada chamada "output"
-      - uses: crazy-max/ghaction-github-pages@v3.1.0
+      - uses: crazy-max/ghaction-github-pages@v4
         with:
           target_branch: output
           build_dir: dist

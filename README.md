@@ -1,48 +1,49 @@
-![Header](https://capsule-render.vercel.app/api?type=waving&color=0d1117&height=320&section=header&text=Joaquim%20Mendes&fontSize=85&animation=fadeIn&fontAlignY=45&desc=%20%40Rescker&descAlignY=65&descAlign=62&fontColor=ffffff)
+```text
+       ______  ___   ____  __  ________  ___
+      / / __ \/   | / __ \/ / / /  _/  |/  /
+ __  / / / / / /| |/ / / / / / // // /|_/ /
+/ /_/ / /_/ / ___ / /_/ / /_/ // // /  / /
+\____/\____/_/  |_\___\_\____/___/_/  /_/
 
-<div align="center">
+    __  __________   ______  ___________
+   /  |/  / ____/ | / / __ \/ ____/ ___/
+  / /|_/ / __/ /  |/ / / / / __/  \__ \
+ / /  / / /___/ /|  / /_/ / /___ ___/ /
+/_/  /_/_____/_/ |_/_____/_____//____/
 
-  <a href="https://git.io/typing-svg">
-    <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=24&pause=1000&color=35CD95&center=true&vCenter=true&width=750&lines=Full+Stack+Developer;Software+Engineer;Building+High+Value+Solutions;Desenvolvedor+de+Software" alt="Typing SVG" />
-  </a>
+rescker@github:~$ whoami
+Joaquim Mendes · software engineer
+backend-leaning full stack
+rescker@github:~$ cat /etc/motd
+State? It ain't. Hit the road, dude.
+This ain't no state property. 🚜
+rescker@github:~$ _
+```
 
-  <br/>
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=500&size=20&pause=1200&color=39D353&background=0D1117&vCenter=true&width=620&height=45&lines=%3E+java+%2F+spring+boot+%2F+postgres+%2F+mysql;%3E+react+%2F+typescript+%2F+next.js+%2F+tailwind" alt="java / spring boot / postgres / mysql — react / typescript / next.js / tailwind" />
 
-  <a href="https://linkedin.com/in/joaquim-mendes-832610266">
-    <img src="https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" />
-  </a>
-  <a href="mailto:joaquim0220@gmail.com">
-    <img src="https://img.shields.io/badge/Gmail-Email_Me-EA4335?style=for-the-badge&logo=gmail&logoColor=white" />
-  </a>
-  <img src="https://komarev.com/ghpvc/?username=Rescker&label=VIEWS&color=0e75b6&style=for-the-badge" alt="Profile Views" />
+## Stack
 
-</div>
+<img src="https://skillicons.dev/icons?i=java,spring,postgres,mysql,react,ts,mongodb,docker&theme=dark&perline=8" alt="Java, Spring, PostgreSQL, MySQL, React, TypeScript, MongoDB, Docker" />
 
-<br/>
-<br/>
+## Shipped
 
-<h2 align="center">⚡ Tech Stack</h2>
+| Project | What it is | Stack | Live |
+| --- | --- | --- | --- |
+| **[A3L-GUI-editor](https://github.com/Rescker/A3L-GUI-editor)** | Visual editor for Arma 3 `config.cpp` UI dialogs. Canvas with drag/resize/zoom, alignment guides, multi-select, 200 ms-coalesced undo/redo, 51 component presets (Arma native + Life/RP), `GUI_GRID`/`SafeZone`/`Absolute` coordinate systems, Monaco-based UI event handlers, config import/export with inheritance-aware output. | `TypeScript` `React 18` `Zustand` `Vite` `Tailwind` `Monaco` | [demo](https://rescker.github.io/A3L-GUI-editor/) |
 
-<div align="center">
-  <img src="https://skillicons.dev/icons?i=java,python,ts,js" height="55" />
-  <br/>
-  <br/>
-  <img src="https://skillicons.dev/icons?i=spring,django,react,nextjs,tailwind" height="55" />
-  <br/>
-  <br/>
-  <img src="https://skillicons.dev/icons?i=postgres,mysql,mongo,docker,git" height="55" />
-</div>
+## Activity
 
-<br/>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Rescker/Rescker/output/github-contribution-grid-snake-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Rescker/Rescker/output/github-contribution-grid-snake.svg" />
+  <img alt="contribution graph" src="https://raw.githubusercontent.com/Rescker/Rescker/output/github-contribution-grid-snake.svg" />
+</picture>
 
-<br/>
+## Contact
 
-<div align="center">
-  <img src="https://github.com/Rescker/Rescker/blob/output/github-contribution-grid-snake-dark.svg" width="100%" alt="Snake Animation" />
-</div>
-
-<hr/>
-
-<div align="center">
-  <sub>Developed with 💜 by <b><a href="https://github.com/Rescker">Rescker</a></b></sub>
-</div>
+```
+linkedin  https://linkedin.com/in/joaquim-mendes-832610266
+email     joaquim0220@gmail.com
+github    https://github.com/Rescker
+```
