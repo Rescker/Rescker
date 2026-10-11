@@ -12,6 +12,7 @@
 | Project | What it is | Stack | Live |
 | --- | --- | --- | --- |
 | **[A3L-GUI-editor](https://github.com/Rescker/A3L-GUI-editor)** | Visual editor for Arma 3 `config.cpp` UI dialogs. Canvas with drag/resize/zoom, alignment guides, multi-select, 200 ms-coalesced undo/redo, 51 component presets (Arma native + Life/RP), `GUI_GRID`/`SafeZone`/`Absolute` coordinate systems, Monaco-based UI event handlers, config import/export with inheritance-aware output. | `TypeScript` `React 18` `Zustand` `Vite` `Tailwind` `Monaco` | [demo](https://rescker.github.io/A3L-GUI-editor/) |
+| **[telegram-coder](https://github.com/Rescker/telegram-coder)** | Long-polling bridge between Telegram and a local [`omp`](https://www.npmjs.com/package/@oh-my-pi/omp) agent session (`omp --mode rpc-ui`, NDJSON over stdin/stdout). A turn becomes at most two messages: the reply, edited as the text streams in, plus a live activity line that lists each tool call and collapses into one summary at the end. Mid-turn messages are delivered as steering, model Markdown is rendered into Telegram formatting (tables rewritten as labelled lists, long code blocks collapsed), `exec`-tier tools are gated behind Approve/Deny buttons whose prompt is deleted on answer, and `/ask` runs a second read-only omp with no write/edit/bash tools at all. Single-instance lock, persisted update offset, session index, crash supervisor with backoff. | `Python` `asyncio` `python-telegram-bot` `NDJSON` `JSON-RPC` | — |
 
 ## Activity
 
